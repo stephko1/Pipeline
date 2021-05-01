@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  sonarcloud: sonarsource/sonarcloud@1.0.2
+  sonarcloud: sonarsource/sonarcloud@1.0.1
 jobs:
   node:
     working_directory: ~/demo-react-native
@@ -9,14 +9,11 @@ jobs:
 
     steps:
       - checkout
-      - run:
-          name: "Setup SonarCloud environment variables"
-          command: echo 'export SONAR_TOKEN="1580573179233e2d864f5f8c637886c0ef491b98"' >> $BASH_ENV
-      - sonarcloud/scan
       - restore_cache:
           key: node-v1-{{ checksum "package.json" }}-{{ arch }}
       - run: npm install joi
       - run: npm run test
+      - sonarcloud/scan
       - save_cache:
           key: node-v1-{{ checksum "package.json" }}-{{ arch }}
           paths:
@@ -129,7 +126,8 @@ jobs:
 workflows:
   node-android-ios:
     jobs:
-      - node
+      - node:
+        context: SonarCloud
       - android-build-and-test:
           requires:
             - node
