@@ -15,11 +15,11 @@ jobs:
           key: node-v1-{{ checksum "package.json" }}-{{ arch }}
           paths:
             - node_modules
-     - persist_to_workspace:
+      - persist_to_workspace:
           root: ~/demo-react-native
           paths:
             - node_modules
-     - store_test_results:
+      - store_test_results:
           path: ~/demo-react-native/junit.xml
 
   macos-build-and-test:
