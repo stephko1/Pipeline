@@ -26,7 +26,13 @@ platform :android do
     gradle(task: 'clean')
     build_number=number_of_commits()
     gradle(task: 'assemble', build_type: 'Release', properties: {"VERSION_CODE" => build_number})
-  end
+    sonar(
+      project_key: "stephko1_Pipeline",
+      sonar_organization: "stephko1",
+      sonar_login: "1580573179233e2d864f5f8c637886c0ef491b98",
+      sonar_url: "https://sonarcloud.io"
+    )
+   end
   
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
