@@ -5,11 +5,37 @@ orbs:
 workflows:
   main:
     jobs:
+      - init
       - android-build-and-test:
           context: SonarCloud
+          requires: 
+            - init
       - macos-build-and-test:
           context: SonarCloud
+          requires: 
+            - init
 jobs:
+  init:
+    working_directory: ~/demo-react-native
+    docker:
+      - image: cimg/node:12.16
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: node-v1-{{ checksum "package.json" }}-{{ arch }}
+
+      - save_cache:
+          key: node-v1-{{ checksum "package.json" }}-{{ arch }}
+          paths:
+            - node_modules
+
+      - persist_to_workspace:
+          root: ~/demo-react-native
+          paths:
+            - node_modules
+
   android-build-and-test:
     working_directory: ~/demo-react-native/android
     docker:
