@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.1
 jobs:
-  node:
+  build:
     working_directory: ~/demo-react-native
     docker:
       - image: cimg/node:12.16
@@ -124,14 +124,14 @@ jobs:
           path: test-results
 
 workflows:
-  node-android-ios:
+  main:
     jobs:
-      - node:
-        context: SonarCloud
+      - build:
+          context: SonarCloud
       - android-build-and-test:
           requires:
-            - node
+            - build
       - macos-build-and-test:
           requires:
-            - node
+            - build
             
