@@ -13,7 +13,6 @@ jobs:
           key: node-v1-{{ checksum "package.json" }}-{{ arch }}
       - run: npm install joi
       - run: npm run test
-      - sonarcloud/scan
       - save_cache:
           key: node-v1-{{ checksum "package.json" }}-{{ arch }}
           paths:
@@ -116,7 +115,10 @@ jobs:
             chmod +x ./gradlew
             bundle exec fastlane test
             mv fastlane/report.xml test-results/fastlane
-
+      - run:
+          name: fastlane build
+          command: fastlane build
+      - sonarcloud/scan
       - store_test_results:
           path: test-results
 
