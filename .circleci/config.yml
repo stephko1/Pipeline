@@ -1,19 +1,18 @@
 version: 2.1
-orbs:
-  sonarcloud: sonarsource/sonarcloud@1.0.1
+#orbs:
+  #sonarcloud: sonarsource/sonarcloud@1.0.1
 
 workflows:
   main:
     jobs:
       - init
       - android-build-and-test:
-          context: SonarCloud
+          #context: SonarCloud
           requires: 
             - init
-      #- macos-build-and-test:
-          #context: SonarCloud
-          #requires: 
-            #- init
+      - macos-build-and-test:
+          requires: 
+            - init
 jobs:
   init:
     working_directory: ~/demo-react-native
