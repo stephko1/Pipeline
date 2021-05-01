@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  sonarcloud: sonarsource/sonarcloud@1.0.2
 jobs:
   node:
     working_directory: ~/demo-react-native
@@ -7,9 +9,13 @@ jobs:
 
     steps:
       - checkout
+      - run:
+          name: "Setup SonarCloud environment variables"
+          command: echo 'export SONAR_TOKEN="1580573179233e2d864f5f8c637886c0ef491b98"' >> $BASH_ENV
+      - sonarcloud/scan
       - restore_cache:
           key: node-v1-{{ checksum "package.json" }}-{{ arch }}
-      - run: npm install
+      - run: npm install joi
       - run: npm run test
       - save_cache:
           key: node-v1-{{ checksum "package.json" }}-{{ arch }}
@@ -58,13 +64,13 @@ jobs:
       - restore_cache:
           key: pods-v1-{{ checksum "ios/Podfile.lock" }}-{{ arch }}
 
-      - run: 
-          command: pod install
-          working_directory: ios
+      #- run: 
+      #    command: pod install
+      #    working_directory: ios
 
-      - run: 
-          command: bundle install
-          working_directory: ios
+      #- run: 
+      #    command: bundle install
+      #    working_directory: ios
 
       - save_cache:
           key: bundle-v1-{{ checksum "ios/Gemfile.lock" }}-{{ arch }}
@@ -94,14 +100,12 @@ jobs:
     steps:
       - checkout:
           path: ~/demo-react-native
-
       - attach_workspace:
           at: ~/demo-react-native
-
       - restore_cache:
           key: bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}
 
-      - run: bundle install
+      - run: sudo bundle install
 
       - save_cache:
           key: bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}
