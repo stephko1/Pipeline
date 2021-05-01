@@ -63,17 +63,17 @@ jobs:
       - run:
           name: fastlane build
           command: fastlane build
-      
+
+      - run: 
+          name: SonarQube (SonarCloud) Tests
+          command: ./gradlew sonarqube
+            
       - store_test_results:
           path: test-results
 
       - store_artifacts:
           path: test-results
           
-      - run: 
-          name: fastlane sonar
-          command: ./gradlew sonarqube
-      
   macos-build-and-test:
     working_directory: ~/demo-react-native/ios
     macos:
@@ -108,5 +108,3 @@ jobs:
           
       - store_test_results:
           path: output/scan
-          
-      - sonarcloud/scan
