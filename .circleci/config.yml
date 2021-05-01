@@ -11,8 +11,8 @@ jobs:
       - checkout
       - restore_cache:
           key: node-v1-{{ checksum "package.json" }}-{{ arch }}
-      - run: npm install joi
-      - run: npm run test
+      #- run: npm install joi
+      #- run: npm run test
       - save_cache:
           key: node-v1-{{ checksum "package.json" }}-{{ arch }}
           paths:
@@ -128,11 +128,12 @@ jobs:
 workflows:
   main:
     jobs:
-      - build:
-          context: SonarCloud
+      - build
+          
       - android-build-and-test:
           requires:
             - build
+          context: SonarCloud
       - macos-build-and-test:
           requires:
             - build
