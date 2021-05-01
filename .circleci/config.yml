@@ -135,6 +135,7 @@ jobs:
           name: fastlane tests
           command: |
             mkdir -p test-results/fastlane
+            chmod +x ./gradlew
             bundle exec fastlane test
             mv fastlane/report.xml test-results/fastlane
 
