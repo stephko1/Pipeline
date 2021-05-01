@@ -196,7 +196,7 @@
 				BB2DD0605D4ADC0548BB496A /* Pods-circleciDemoReactNative-tvOSTests.debug.xcconfig */,
 				8CA072420BC4B28914151A85 /* Pods-circleciDemoReactNative-tvOSTests.release.xcconfig */,
 			);
-			path = Pods;
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
