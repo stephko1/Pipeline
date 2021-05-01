@@ -10,10 +10,10 @@ workflows:
           context: SonarCloud
           requires: 
             - init
-      - macos-build-and-test:
-          context: SonarCloud
-          requires: 
-            - init
+      #- macos-build-and-test:
+          #context: SonarCloud
+          #requires: 
+            #- init
 jobs:
   init:
     working_directory: ~/demo-react-native
@@ -70,7 +70,9 @@ jobs:
       - store_artifacts:
           path: test-results
           
-      - sonarcloud/scan
+      - run: 
+          name: fastlane sonar
+          command: fastlane run sonar
       
   macos-build-and-test:
     working_directory: ~/demo-react-native/ios
