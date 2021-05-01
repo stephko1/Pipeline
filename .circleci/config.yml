@@ -63,13 +63,15 @@ jobs:
       - run:
           name: fastlane build
           command: fastlane build
-      - sonarcloud/scan
+      
       - store_test_results:
           path: test-results
 
       - store_artifacts:
           path: test-results
-
+          
+      - sonarcloud/scan
+      
   macos-build-and-test:
     working_directory: ~/demo-react-native/ios
     macos:
@@ -87,7 +89,7 @@ jobs:
       - restore_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
 
-      - run: bundle check || bundle install --path vendor/bundle
+      - run: bundle install && bundle update
 
       - save_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
@@ -97,13 +99,12 @@ jobs:
       - run:
           name: Fastlane
           command: bundle exec fastlane $FASTLANE_LANE
-          working_directory: ios
-          
-      - sonarcloud/scan
+          working_directory: ios      
       
       - store_artifacts:
           path: output
           
       - store_test_results:
           path: output/scan
-           
+          
+      - sonarcloud/scan
