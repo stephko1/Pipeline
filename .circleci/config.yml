@@ -72,7 +72,10 @@ jobs:
           
       - run: 
           name: fastlane sonar
-          command: fastlane run sonar
+          command: |
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            brew install sonar-scanner
+            fastlane run sonar
       
   macos-build-and-test:
     working_directory: ~/demo-react-native/ios
