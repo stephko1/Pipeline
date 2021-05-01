@@ -74,26 +74,24 @@ jobs:
           path: test-results
           
   macos-build-and-test:
-    working_directory: ~/demo-react-native/ios
+    working_directory: ~/demo-react-native
     macos:
       xcode: 11.3.0
     environment:
       FL_OUTPUT_DIR: output
-      FASTLANE_LANE: test
     shell: /bin/bash --login -o pipefail
     steps:
-      - checkout:
-          path: ~/demo-react-native
-      - attach_workspace:
-          at: ~/demo-react-native
+      - checkout
           
       - restore_cache:
-          key: 1-gems-{{ checksum "Gemfile.lock" }}
+          key: 1-gems-{{ checksum "ios/Gemfile.lock" }}
 
-      - run: bundle install && bundle update
+      - run: 
+          command: bundle install && bundle update
+          working_directory: ios
 
       - save_cache:
-          key: 1-gems-{{ checksum "Gemfile.lock" }}
+          key: 1-gems-{{ checksum "ios/Gemfile.lock" }}
           paths:
             - vendor/bundle
 
